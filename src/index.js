@@ -3,4 +3,6 @@ import { render } from 'react-dom'
 
 import App from './App'
 
-render(<App />, document.getElementById('app'))
+import properties from './data/data.json'
+
+render(<App data={properties} />, document.getElementById('app'))
