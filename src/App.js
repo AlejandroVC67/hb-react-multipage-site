@@ -1,12 +1,14 @@
 import React, { Component } from 'react'
 
-import Test from './Test.js'
+import './scss/_reset.scss'
+
+import NavBar from './components/NavBar/Navbar.js'
 
 export default class App extends Component {
   render () {
     return (
       <div>
-        <Test content={this.props} />
+        <NavBar content={this.props.data.navbar} />
       </div>
     )
   }
