@@ -45,7 +45,7 @@ export default function NavBar ({content}) {
             } else {
               return (
                 <div clasName='nav-bar__list-container'>
-                  <li className='nav-bar__list-item'>hola</li>
+                  <li className='nav-bar__list-item'>{content.element.label}</li>
                 </div>
               )
             }
