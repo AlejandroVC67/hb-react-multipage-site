@@ -4,6 +4,6 @@ import './scss/test.scss'
 
 export default function Test ({content}) {
   return (
-    <div className={content.data.className}> {content.data.description} </div>
+    <div className='test-div'> {content.data.description} </div>
   )
 }
