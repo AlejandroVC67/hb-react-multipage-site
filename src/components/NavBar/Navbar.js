@@ -1,22 +1,8 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 
 import './_NavBar.scss'
 
 export default function NavBar ({content}) {
-  console.log(content)
-  /*
-  const singleLinks = []
-  const componsedLinks = content.links.filter((element) => {
-    if (element.hasOwnProperty('links')) {
-        return element
-    }
-    else{
-      singleLinks.push(element)
-    }
-  })
-  console.log(componsedLinks)
-  console.log(singleLinks) */
-
   return (
     <nav className='nav-bar'>
       <span className='nav-bar__menu'>
@@ -33,20 +19,38 @@ export default function NavBar ({content}) {
       </div>
       <ul className='nav-bar__list'>
         {
-          content.links.forEach(element => {
-            if (element.hasOwnProperty('links')) {
+          content.links.map(element => {
+            if (element.hasOwnProperty('href')) {
               return (
                 <div>
                   <li className='nav-bar__list-item'>
-                    <a className='nav-bar__list-item-element' href={content.element.href}>{content.element.label}</a>
+                    <a className='nav-bar__list-item-element' href={element.href}>{element.label}</a>
                   </li>
                 </div>
               )
             } else {
               return (
-                <div clasName='nav-bar__list-container'>
-                  <li className='nav-bar__list-item'>{content.element.label}</li>
-                </div>
+                <Fragment>
+                  <div className='nav-bar__list-container'>
+                    <li className='nav-bar__list-item'>{element.label}
+                      <ul className='nav-bar__dropdown-list'>
+                        {
+                          element.links.map(subelement => {
+                            return (
+                              <li>
+                                <a href={subelement.href}> {subelement.label} </a>
+                              </li>
+                            )
+                          })
+                        }
+                      </ul>
+                    </li>
+                    <span className='nav-bar__arrow-container'>
+                      <span className='nav-bar__arrow-container-item' />
+                      <span className='nav-bar__arrow-container-item' />
+                    </span>
+                  </div>
+                </Fragment>
               )
             }
           })
