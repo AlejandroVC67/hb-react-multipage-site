@@ -5,69 +5,31 @@ import './_NavBar.scss'
 export default class NavBar extends Component {
   constructor (content) {
     super(content)
-    this.content = content
-    this.currentDropdown = null
-  }
 
-  static get states () {
-    return {
-      firstArrowActive: `nav-bar__menu__button-first--active`,
-      lastArrowActive: `nav-bar__menu__button-last--active`,
-      dropDownActive: `nav-bar__dropdown-list--active`,
-      leftArrowActive: `leftArrow--active`,
-      rightArrowActive: `rightArrow--active`
+    this.state = {
+      menuActive: false
     }
+    this.content = content
+    this.changeMenuState = this.changeMenuState.bind(this)
   }
 
-  setMenuAction (buttonMenu) {
-    this.animateMenu()
-    console.log('hay comentario acá')
-    // this.navbarList.classList.toggle('nav-bar__list--active')
-  }
-
-  animateMenu () {
-    /*
-    this.btnMenuFirstArrow.classList.toggle(NavBar.states.firstArrowActive)
-    this.btnMenuLastArrow.classList.toggle(NavBar.states.lastArrowActive) */
-    console.log('Acá está comentado')
-  }
-
-  /*
-  changeArrows (element, index) {
-    element.querySelectorAll('.nav-bar__arrow-container-item')[0].classList.toggle(NavBar.states.leftArrowActive)
-    element.querySelectorAll('.nav-bar__arrow-container-item')[1].classList.toggle(NavBar.states.rightArrowActive)
-  } */
-
-  /*
-  setDropDownAction (dropDownTrigger) {
-    dropDownTrigger.forEach(element => {
-      element.addEventListener('click', () => {
-        const index = Array.from(dropDownTrigger).indexOf(element)
-        this.changeArrows(element, index)
-        if (this.currentDropdown === null) {
-          this.currentDropdown = index
-        }
-        if (index === this.currentDropdown) {
-          this.elements.dropDownList[this.currentDropdown].classList.toggle(NavBar.states.dropDownActive)
-        } else {
-          this.elements.dropDownList[this.currentDropdown].classList.remove(NavBar.states.dropDownActive)
-          this.elements.dropDownList[index].classList.add(NavBar.states.dropDownActive)
-          this.currentDropdown = index
-        }
-      })
+  changeMenuState () {
+    this.setState((currentState) => {
+      return {menuActive: !currentState.menuActive}
     })
-  } */
+  }
 
   render () {
+    const states = {
+      menuActive: this.state.menuActive ? 'nav-bar__list--active' : ''
+    }
     return (
       <nav className='nav-bar'>
         <span className='nav-bar__menu'>
-          <button className='nav-bar__menu__button'
-            ref={(btnMenu) => { this.btnMenu = btnMenu }}
-            onClick={this.setMenuAction(this.btnMenu)}>
-            <div className='nav-bar__menu__button-first' ref={(btnMenuFirstArrow) => { this.btnMenuFirstArrow = btnMenuFirstArrow }} />
+          <button className='nav-bar__menu__button' onClick={this.changeMenuState}>
+            <div className={`nav-bar__menu__button-first ${this.state.menuFirstArrowActive}`} />
             <div className='nav-bar__menu__button-middle' />
-            <div className='nav-bar__menu__button-last' ref={(btnMenuLastArrow) => { this.btnMenuLastArrow = btnMenuLastArrow }} />
+            <div className={`nav-bar__menu__button-last ${this.state.menuLastArrowActive}`} />
           </button>
         </span>
         <div className='nav-bar__image__container'>
@@ -75,8 +37,7 @@ export default class NavBar extends Component {
             <img className='nav-bar__image' src={this.content.content.logo.img} alt='company logo' />
           </a>
         </div>
-        <ul className='nav-bar__list'
-          ref={(navBarList) => { this.navbarList = navBarList }} >
+        <ul className={`nav-bar__list ${states.menuActive}`}>
           {
             this.content.content.links.map(element => {
               if (element.hasOwnProperty('href')) {
@@ -92,9 +53,9 @@ export default class NavBar extends Component {
                   <Fragment>
                     <div className='nav-bar__list-container'
                       ref={(navBarContainer) => { this.navbarContainer = navBarContainer }}
-                      >
+                    >
                       <li className='nav-bar__list-item'>{element.label}
-                        <ul className='nav-bar__dropdown-list' ref={(navBarDropdownList) => { this.navBarDropdownList = navBarDropdownList }} >
+                        <ul className='nav-bar__dropdown-list' >
                           {
                             element.links.map(subelement => {
                               return (
