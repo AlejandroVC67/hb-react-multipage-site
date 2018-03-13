@@ -20,14 +20,15 @@ export default class NavBar extends Component {
     })
   }
 
+  controlDropDown (dropDown) {
+    console.log(dropDown)
+  }
+
   render () {
     const states = {
       menuActive: this.state.menuActive ? 'nav-bar__list--active' : '',
       menuFirstArrow: this.state.menuActive ? 'nav-bar__menu__button-first--active' : '',
       menuLastArrow: this.state.menuActive ? 'nav-bar__menu__button-last--active' : ''
-      // dropDownActive: this.state.dropDownActive ? 'nav-bar__dropdown-list--active' : '',
-      // dropDownFirstArrow: this.state.dropDownActive ? 'rightArrow--active' : '',
-      // dropDownLastArrow: this.state.dropDownActive ? 'leftArrow--active' : ''
     }
     return (
       <nav className='nav-bar'>
@@ -46,7 +47,6 @@ export default class NavBar extends Component {
         <ul className={`nav-bar__list ${states.menuActive}`}>
           {
             this.props.content.links.map(element => {
-              console.log(element)
               if (element.hasOwnProperty('href')) {
                 return (
                   <div>
@@ -58,7 +58,7 @@ export default class NavBar extends Component {
               } else {
                 return (
                   <Fragment>
-                    <DropDownList data={element} />
+                    <DropDownList data={element} ref={(list) => { this.list = list }} callback={this.controlDropDown} />
                   </Fragment>
                 )
               }
