@@ -7,10 +7,12 @@ export default class NavBar extends Component {
     super(content)
 
     this.state = {
-      menuActive: false
+      menuActive: false,
+      dropDownActive: false
     }
     this.content = content
     this.changeMenuState = this.changeMenuState.bind(this)
+    this.handleDropdown = this.handleDropdown.bind(this)
   }
 
   changeMenuState () {
@@ -19,17 +21,27 @@ export default class NavBar extends Component {
     })
   }
 
+  handleDropdown (event) {
+    this.setState((currentState) => {
+      return {dropDownActive: !currentState.dropDownActive}
+    })
+  }
   render () {
     const states = {
-      menuActive: this.state.menuActive ? 'nav-bar__list--active' : ''
+      menuActive: this.state.menuActive ? 'nav-bar__list--active' : '',
+      menuFirstArrow: this.state.menuActive ? 'nav-bar__menu__button-first--active' : '',
+      menuLastArrow: this.state.menuActive ? 'nav-bar__menu__button-last--active' : '',
+      dropDownActive: this.state.dropDownActive ? 'nav-bar__dropdown-list--active' : '',
+      dropDownFirstArrow: this.state.dropDownActive ? 'rightArrow--active' : '',
+      dropDownLastArrow: this.state.dropDownActive ? 'leftArrow--active' : ''
     }
     return (
       <nav className='nav-bar'>
         <span className='nav-bar__menu'>
           <button className='nav-bar__menu__button' onClick={this.changeMenuState}>
-            <div className={`nav-bar__menu__button-first ${this.state.menuFirstArrowActive}`} />
+            <div className={`nav-bar__menu__button-first ${states.menuFirstArrow}`} />
             <div className='nav-bar__menu__button-middle' />
-            <div className={`nav-bar__menu__button-last ${this.state.menuLastArrowActive}`} />
+            <div className={`nav-bar__menu__button-last ${states.menuLastArrow}`} />
           </button>
         </span>
         <div className='nav-bar__image__container'>
@@ -51,11 +63,9 @@ export default class NavBar extends Component {
               } else {
                 return (
                   <Fragment>
-                    <div className='nav-bar__list-container'
-                      ref={(navBarContainer) => { this.navbarContainer = navBarContainer }}
-                    >
+                    <div className='nav-bar__list-container' onClick={this.handleDropdown}>
                       <li className='nav-bar__list-item'>{element.label}
-                        <ul className='nav-bar__dropdown-list' >
+                        <ul className={`nav-bar__dropdown-list ${states.dropDownActive}`}>
                           {
                             element.links.map(subelement => {
                               return (
@@ -68,8 +78,8 @@ export default class NavBar extends Component {
                         </ul>
                       </li>
                       <span className='nav-bar__arrow-container'>
-                        <span className='nav-bar__arrow-container-item' />
-                        <span className='nav-bar__arrow-container-item' />
+                        <span className={`nav-bar__arrow-container-item  ${states.dropDownFirstArrow}`} />
+                        <span className={`nav-bar__arrow-container-item ${states.dropDownLastArrow} `} />
                       </span>
                     </div>
                   </Fragment>
