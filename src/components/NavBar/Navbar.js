@@ -5,28 +5,19 @@ import DropDownList from '../DropDownList/DropDownList'
 import './_NavBar.scss'
 
 export default class NavBar extends Component {
-  constructor (content) {
-    super(content)
+  constructor (props) {
+    super(props)
 
     this.state = {
-      menuActive: false,
-      dropDownActive: false
+      menuActive: false
     }
     this.changeMenuState = this.changeMenuState.bind(this)
-    this.handleDropdown = this.handleDropdown.bind(this)
   }
 
   changeMenuState () {
     this.setState((currentState) => {
       return {menuActive: !currentState.menuActive}
     })
-  }
-
-  handleDropdown (event) {
-    this.setState((currentState) => {
-      return {dropDownActive: !currentState.dropDownActive}
-    })
-    console.log(this.state.dropDownActive)
   }
 
   render () {
@@ -55,6 +46,7 @@ export default class NavBar extends Component {
         <ul className={`nav-bar__list ${states.menuActive}`}>
           {
             this.props.content.links.map(element => {
+              console.log(element)
               if (element.hasOwnProperty('href')) {
                 return (
                   <div>
@@ -66,26 +58,7 @@ export default class NavBar extends Component {
               } else {
                 return (
                   <Fragment>
-                    <div className='nav-bar__list-container' onClick={this.handleDropdown}>
-                      <li className='nav-bar__list-item'>{element.label}
-                        <DropDownList data={this.props.content.links} />
-                        {/* <ul className={`nav-bar__dropdown-list ${states.dropDownActive}`}>
-                          {
-                            element.links.map(subelement => {
-                              return (
-                                <li>
-                                  <a href={subelement.href}> {subelement.label} </a>
-                                </li>
-                              )
-                            })
-                          }
-                        </ul> */}
-                      </li>
-                      <span className='nav-bar__arrow-container'>
-                        <span className={`nav-bar__arrow-container-item  ${states.dropDownFirstArrow}`} />
-                        <span className={`nav-bar__arrow-container-item ${states.dropDownLastArrow} `} />
-                      </span>
-                    </div>
+                    <DropDownList data={element} />
                   </Fragment>
                 )
               }
