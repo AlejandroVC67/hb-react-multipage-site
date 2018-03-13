@@ -1,5 +1,7 @@
 import React, { Fragment, Component } from 'react'
 
+import DropDownList from '../DropDownList/DropDownList'
+
 import './_NavBar.scss'
 
 export default class NavBar extends Component {
@@ -10,7 +12,6 @@ export default class NavBar extends Component {
       menuActive: false,
       dropDownActive: false
     }
-    this.content = content
     this.changeMenuState = this.changeMenuState.bind(this)
     this.handleDropdown = this.handleDropdown.bind(this)
   }
@@ -25,15 +26,17 @@ export default class NavBar extends Component {
     this.setState((currentState) => {
       return {dropDownActive: !currentState.dropDownActive}
     })
+    console.log(this.state.dropDownActive)
   }
+
   render () {
     const states = {
       menuActive: this.state.menuActive ? 'nav-bar__list--active' : '',
       menuFirstArrow: this.state.menuActive ? 'nav-bar__menu__button-first--active' : '',
-      menuLastArrow: this.state.menuActive ? 'nav-bar__menu__button-last--active' : '',
-      dropDownActive: this.state.dropDownActive ? 'nav-bar__dropdown-list--active' : '',
-      dropDownFirstArrow: this.state.dropDownActive ? 'rightArrow--active' : '',
-      dropDownLastArrow: this.state.dropDownActive ? 'leftArrow--active' : ''
+      menuLastArrow: this.state.menuActive ? 'nav-bar__menu__button-last--active' : ''
+      // dropDownActive: this.state.dropDownActive ? 'nav-bar__dropdown-list--active' : '',
+      // dropDownFirstArrow: this.state.dropDownActive ? 'rightArrow--active' : '',
+      // dropDownLastArrow: this.state.dropDownActive ? 'leftArrow--active' : ''
     }
     return (
       <nav className='nav-bar'>
@@ -45,13 +48,13 @@ export default class NavBar extends Component {
           </button>
         </span>
         <div className='nav-bar__image__container'>
-          <a className='nav-bar__image-link' href={this.content.content.logo.link}>
-            <img className='nav-bar__image' src={this.content.content.logo.img} alt='company logo' />
+          <a className='nav-bar__image-link' href={this.props.content.logo.link}>
+            <img className='nav-bar__image' src={this.props.content.logo.img} alt='company logo' />
           </a>
         </div>
         <ul className={`nav-bar__list ${states.menuActive}`}>
           {
-            this.content.content.links.map(element => {
+            this.props.content.links.map(element => {
               if (element.hasOwnProperty('href')) {
                 return (
                   <div>
@@ -65,7 +68,8 @@ export default class NavBar extends Component {
                   <Fragment>
                     <div className='nav-bar__list-container' onClick={this.handleDropdown}>
                       <li className='nav-bar__list-item'>{element.label}
-                        <ul className={`nav-bar__dropdown-list ${states.dropDownActive}`}>
+                        <DropDownList data={this.props.content.links} />
+                        {/* <ul className={`nav-bar__dropdown-list ${states.dropDownActive}`}>
                           {
                             element.links.map(subelement => {
                               return (
@@ -75,7 +79,7 @@ export default class NavBar extends Component {
                               )
                             })
                           }
-                        </ul>
+                        </ul> */}
                       </li>
                       <span className='nav-bar__arrow-container'>
                         <span className={`nav-bar__arrow-container-item  ${states.dropDownFirstArrow}`} />
