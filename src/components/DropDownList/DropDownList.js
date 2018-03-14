@@ -6,7 +6,7 @@ export default class DropDownList extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      dropDownActive: false
+      dropDownActive: true
     }
     this.handleDropdown = this.handleDropdown.bind(this)
   }
@@ -15,15 +15,14 @@ export default class DropDownList extends Component {
     this.setState((currentState) => {
       return {dropDownActive: !currentState.dropDownActive}
     })
-    console.log(this)
-    // this.props.callback(this.props.ref)
+    this.props.callback(this)
   }
 
   render () {
     const states = {
-      dropDownActive: this.state.dropDownActive ? 'nav-bar__dropdown-list--active' : '',
-      dropDownFirstArrow: this.state.dropDownActive ? 'rightArrow--active' : '',
-      dropDownLastArrow: this.state.dropDownActive ? 'leftArrow--active' : ''
+      dropDownActive: this.state.dropDownActive ? '' : 'nav-bar__dropdown-list--active',
+      dropDownFirstArrow: this.state.dropDownActive ? '' : 'rightArrow--active',
+      dropDownLastArrow: this.state.dropDownActive ? '' : 'leftArrow--active'
     }
     return (
       <Fragment>

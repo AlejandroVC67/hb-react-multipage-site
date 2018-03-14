@@ -7,9 +7,10 @@ import './_NavBar.scss'
 export default class NavBar extends Component {
   constructor (props) {
     super(props)
-
     this.state = {
-      menuActive: false
+      menuActive: false,
+      dropDowns: [],
+      currentDropDown: {}
     }
     this.changeMenuState = this.changeMenuState.bind(this)
   }
@@ -21,7 +22,8 @@ export default class NavBar extends Component {
   }
 
   controlDropDown (dropDown) {
-    console.log(dropDown)
+    console.log(this, 'este es el this')
+    console.log(dropDown, 'este es el dropdown clickeado')
   }
 
   render () {
@@ -58,7 +60,7 @@ export default class NavBar extends Component {
               } else {
                 return (
                   <Fragment>
-                    <DropDownList data={element} ref={(list) => { this.list = list }} callback={this.controlDropDown} />
+                    <DropDownList data={element} ref={(dropDown) => { this.state.dropDowns = [...this.state.dropDowns, dropDown] }} callback={this.controlDropDown.bind(this.state.dropDowns)} />
                   </Fragment>
                 )
               }
