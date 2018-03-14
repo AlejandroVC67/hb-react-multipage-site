@@ -8,14 +8,24 @@ export default class DropDownList extends Component {
     this.state = {
       dropDownActive: true
     }
-    this.handleDropdown = this.handleDropdown.bind(this)
+    this.handleDropDown = this.handleDropDown.bind(this)
   }
 
-  handleDropdown (event) {
+  handleDropDown (event) {
+    this.changeState()
+    this.props.callback(this)
+  }
+
+  changeState () {
     this.setState((currentState) => {
       return {dropDownActive: !currentState.dropDownActive}
     })
-    this.props.callback(this)
+  }
+
+  closeDropDown () {
+    this.setState((currentState) => {
+      return {dropDownActive: false}
+    })
   }
 
   render () {
@@ -27,7 +37,7 @@ export default class DropDownList extends Component {
     return (
       <Fragment>
         {
-          <div className='nav-bar__list-container' onClick={this.handleDropdown}>
+          <div className='nav-bar__list-container' onClick={this.handleDropDown}>
             <li className='nav-bar__list-item'>{this.props.data.label}
               <ul className={`nav-bar__dropdown-list ${states.dropDownActive}`}>
                 {

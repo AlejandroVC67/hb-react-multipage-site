@@ -8,11 +8,10 @@ export default class NavBar extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      menuActive: false,
-      dropDowns: [],
-      currentDropDown: {}
+      menuActive: false
     }
     this.changeMenuState = this.changeMenuState.bind(this)
+    this.dropDowns = []
   }
 
   changeMenuState () {
@@ -24,6 +23,11 @@ export default class NavBar extends Component {
   controlDropDown (dropDown) {
     console.log(this, 'este es el this')
     console.log(dropDown, 'este es el dropdown clickeado')
+    this.forEach(element => {
+      if (element !== dropDown) {
+        element.closeDropDown()
+      }
+    })
   }
 
   render () {
@@ -60,7 +64,7 @@ export default class NavBar extends Component {
               } else {
                 return (
                   <Fragment>
-                    <DropDownList data={element} ref={(dropDown) => { this.state.dropDowns = [...this.state.dropDowns, dropDown] }} callback={this.controlDropDown.bind(this.state.dropDowns)} />
+                    <DropDownList data={element} ref={(dropDown) => { this.dropDowns = [...this.dropDowns, dropDown] }} callback={this.controlDropDown.bind(this.dropDowns)} />
                   </Fragment>
                 )
               }
